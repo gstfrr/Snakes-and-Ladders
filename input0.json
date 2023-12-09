@@ -1,0 +1,47 @@
+{
+  "width": 6,
+  "height": 6,
+  "players": 2,
+  "moves": [
+    {
+      "origin": 3,
+      "destination": 16
+    },
+    {
+      "origin": 5,
+      "destination": 7
+    },
+    {
+      "origin": 15,
+      "destination":25
+    },
+    {
+      "origin": 18,
+      "destination": 20
+    },
+    {
+      "origin": 21,
+      "destination": 32
+    },
+    {
+      "origin": 12,
+      "destination": 2
+    },
+    {
+      "origin": 13,
+      "destination": 11
+    },
+    {
+      "origin": 17,
+      "destination": 4
+    },
+    {
+      "origin": 31,
+      "destination": 19
+    },
+    {
+      "origin": 35,
+      "destination": 22
+    }
+  ]
+}
