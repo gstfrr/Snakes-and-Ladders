@@ -6,6 +6,7 @@ class Board:
     def __init__(self, width, height):
         self.width = width
         self.height = height
+        self.last_cell = self.width * self.height
         self.board = None
 
         self.init_board()

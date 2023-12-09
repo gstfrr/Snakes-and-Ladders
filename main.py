@@ -1,13 +1,57 @@
+import json
+
 from Dice import Dice
 from Board import Board
 
+from Player import Player
+
+d = Dice()
+
+
+def play_round(players, board, moves):
+    print('\t '.join(str(p.name) for p in players))
+
+    # No winner yet
+    while all(p.current != board.last_cell for p in players):
+
+        for p in players:
+            # Each player rolls the dice
+            houses = d.roll()
+
+            # If the number current cell is greater than the last cell, we have a winner
+            if p.current + houses >= board.last_cell:
+                p.current = board.last_cell
+            else:
+                p.current += houses
+
+            # If there is a snake or a ladder, then the position is the destination cell
+            if p.current in moves:
+                p.current = moves[p.current]
+
+            # Winner here!
+            if p.current == board.last_cell:
+                print("winner is ", p.name)
+                return p
+
+        print('\t '.join(str(p.current) for p in players))
+
 
 def main():
-    d = Dice()
-    print(d.roll())
+    p1 = Player("Augusto")
+    p2 = Player("Ale")
+    p3 = Player("Lucas")
 
-    board = Board(6, 6)
-    print(board)
+    players = [p1, p2, p3]
+
+    with open("input_dict0.json") as json_file:
+        json_input = json.load(json_file)
+        board = Board(json_input["width"], json_input["height"])
+
+        # Transfer input moves to dictionary with integer keys
+        moves = {int(k): int(v) for k, v in json_input["moves"].items()}
+
+        winner = play_round(players, board, moves)
+        print(winner.name)
 
 
 if __name__ == "__main__":
