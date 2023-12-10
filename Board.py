@@ -7,8 +7,7 @@ class Board:
         self.width = width
         self.height = height
         self.last_cell = self.width * self.height
-        self.board = None
-
+        self.board_matrix = None
         self.init_board()
 
     def init_board(self):
@@ -18,7 +17,7 @@ class Board:
         matrix[1::2] = matrix[1::2, ::-1]
         matrix = matrix[::-1]
 
-        self.board = matrix
+        self.board_matrix = matrix
 
     def __repr__(self):
         return str(self.board)
