@@ -34,14 +34,13 @@ def play_round(players: list[Player], board: Board, moves) -> Player:
                 return p
 
 
-
 def main():
     p1 = Player("Ale")
     p2 = Player("Augusto")
 
     players = [p1, p2]
 
-    with open("input_dict0.json") as json_file:
+    with open("input0.json") as json_file:
         json_input = json.load(json_file)
         board = Board(json_input["width"], json_input["height"])
 
