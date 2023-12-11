@@ -20,4 +20,4 @@ class Board:
         self.board_matrix = matrix
 
     def __repr__(self):
-        return str(self.board)
+        return str(self.board_matrix)
