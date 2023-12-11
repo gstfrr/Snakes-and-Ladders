@@ -1,3 +1,5 @@
+import random
+
 from Dice import Dice
 from Board import Board
 from Player import Player
@@ -7,10 +9,13 @@ from MoveType import MoveType
 d = Dice()
 
 
-def play_round(players: list[Player], board: Board, moves) -> Player:
+def play_round(players: list[Player], board: Board, moves, consider_probability=False) -> (Player, int):
+    probability = 1  # Consider probability to take ladder. It is always 1 if not specified
+
+    number_rolls = 0
     # While nobody reached last cell
     while all(p.current != board.last_cell for p in players):
-
+        number_rolls += 1
         for p in players:
 
             # Each player rolls the dice
@@ -24,12 +29,18 @@ def play_round(players: list[Player], board: Board, moves) -> Player:
 
             # If there is a snake or a ladder, then the destination cell will be given by the moves dictionary
             if p.current in moves:
-                p.current = moves[p.current]
+                if moves[p.current] < p.current:  # Snake
+                    p.current = moves[p.current]
+                else:  # Ladder
+                    if consider_probability:
+                        probability = random.randrange(2)
+                    if bool(probability):
+                        p.current = moves[p.current]
 
             # Winner here!
             if p.current == board.last_cell:
                 # print(p.name, " wins!")
-                return p
+                return p, number_rolls
 
 
 def play_round_immunity(players: list[Player], board: Board, moves) -> Player:

@@ -25,7 +25,7 @@ def process_input(input_path: str) -> (dict[int, int], Board):
 def question_1(players: list[Player], board: Board, moves) -> None:
     winners = []
     for _ in range(0, runs):
-        winner = play_round(players, board, moves)
+        winner, __ = play_round(players, board, moves, consider_probability=False)
 
         # Save the winner's name
         winners.append(winner.name)
@@ -48,6 +48,7 @@ def question_2(players: list[Player], board: Board, moves) -> None:
             for move in player.history:
                 lands.append(move)
 
+        # Using an enum to count is faster than a string comparison
         average_sakes += lands.count(MoveType.SNAKE)
 
         # Don't forget to reset the player current cell before playing again
@@ -57,7 +58,15 @@ def question_2(players: list[Player], board: Board, moves) -> None:
 
 
 def question_3(players: list[Player], board: Board, moves) -> None:
-    pass
+    total_rolls = 0
+    for _ in range(0, runs):
+        __, rolls = play_round(players, board, moves, consider_probability=True)
+        total_rolls += rolls
+
+        # Don't forget to reset the player current cell before playing again
+        [p.reset() for p in players]
+
+    print("Average rolls: ", float(total_rolls / runs))
 
 
 def question_4(players: list[Player], board: Board, moves) -> None:
@@ -76,7 +85,7 @@ def question_4(players: list[Player], board: Board, moves) -> None:
             # Start p2 at the i_th square
             p2.current = initial_square
 
-            winner = play_round(players, board, moves)
+            winner, __ = play_round(players, board, moves)
 
             # Save the winner's name
             winners.append(winner.name)
@@ -88,7 +97,7 @@ def question_4(players: list[Player], board: Board, moves) -> None:
         results["Player2"].append(winners.count(p2.name) / len(winners))
 
     df = pd.DataFrame(results)
-    print(df)  # Question 4
+    print(df.to_string(index=False))
 
 
 def question_5(players: list[Player], board: Board, moves) -> None:
@@ -114,10 +123,19 @@ def main():
 
     moves, board = process_input("input0.json")
 
+    print("\nQuestion 1")
     question_1(players, board, moves)
+
+    print("\nQuestion 2")
     question_2(players, board, moves)
+
+    print("\nQuestion 3")
     question_3(players, board, moves)
+
+    print("\nQuestion 4")
     question_4(players, board, moves)
+
+    print("\nQuestion 5")
     question_5(players, board, moves)
 
 
