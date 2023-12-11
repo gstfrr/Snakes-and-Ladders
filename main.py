@@ -1,5 +1,6 @@
 import json
 
+from MoveType import MoveType
 from Dice import Dice
 from Board import Board
 from Player import Player
@@ -51,14 +52,34 @@ def main():
 
     moves, board = process_input("input0.json")
 
+    runs = 100000
+
     winners = []
-    for _ in range(0, 10000):
+    for _ in range(0, runs):
         winner = play_round(players, board, moves)
+
+        # Save the winner's name
         winners.append(winner.name)
+
+        # Don't forget to reset the player current cell before playing again
         [p.reset() for p in players]
 
     for p in players:
         print(p.name, winners.count(p.name) / len(winners))
+
+    average_sakes = 0
+    for _ in range(0, runs):
+        lands = []
+        play_round(players, board, moves)
+
+        # Save all the cell lands
+        lands += [x for x in p.history for p in players]
+        average_sakes += lands.count(MoveType.SNAKE)
+
+        # Don't forget to reset the player current cell before playing again
+        [p.reset() for p in players]
+
+    print("Average snakes: ", float(average_sakes / runs))
 
 
 if __name__ == "__main__":
