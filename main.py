@@ -56,6 +56,10 @@ def question_2(players: list[Player], board: Board, moves) -> None:
     print("Average snakes: ", float(average_sakes / runs))
 
 
+def question_3(players: list[Player], board: Board, moves) -> None:
+    pass
+
+
 def question_4(players: list[Player], board: Board, moves) -> None:
     p1, p2 = (players[0], players[1])
 
@@ -112,6 +116,7 @@ def main():
 
     question_1(players, board, moves)
     question_2(players, board, moves)
+    question_3(players, board, moves)
     question_4(players, board, moves)
     question_5(players, board, moves)
 
